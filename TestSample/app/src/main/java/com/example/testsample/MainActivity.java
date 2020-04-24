@@ -1,6 +1,7 @@
 package com.example.testsample;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,17 +10,16 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
+    private ConstraintLayout mContainer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button btngoTo = findViewById(R.id.btn_go_to);
-        btngoTo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, SecondActivity.class));
-            }
-        });
+        mContainer = findViewById(R.id.fragment_container);
+
+        getSupportFragmentManager().beginTransaction().add(mContainer.getId(), new FragmentToTest()).commitAllowingStateLoss();
+
     }
 }

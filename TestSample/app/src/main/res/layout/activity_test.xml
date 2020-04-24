@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SecondActivity">
+    android:id="@+id/test_container"
+    tools:context=".TestActivity">
 
 </androidx.constraintlayout.widget.ConstraintLayout>
