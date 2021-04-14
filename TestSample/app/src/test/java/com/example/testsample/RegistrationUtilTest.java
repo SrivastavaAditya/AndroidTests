@@ -70,7 +70,7 @@ public class RegistrationUtilTest {
     @Test
     public void validPasswordReturnsTrue(){
         boolean result = RegistrationUtil.validateUSer(
-                "Carl",
+                "Philip",
                 "1234",
                 "1234"
         );

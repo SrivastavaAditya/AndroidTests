@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class RegistrationUtil {
 
 
-    ArrayList<String> userNameList = new ArrayList<String>(){
+    static ArrayList<String> userNameList = new ArrayList<String>(){
         {
             add("Peter");
             add("Carl");
@@ -23,6 +23,36 @@ public class RegistrationUtil {
             String password,
             String confirmPassword
     ){
+        if(userName.isEmpty()){
+            return false;
+        }
+
+        if(password.isEmpty()){
+            return false;
+        }
+
+        if(confirmPassword.isEmpty()){
+            return false;
+        }
+
+        for(String user: userNameList){
+            if(user.equalsIgnoreCase(userName)){
+                return false;
+            }
+        }
+
+        if(password.length()<2){
+            return false;
+        }
+
+        if(confirmPassword.length()<2){
+            return false;
+        }
+
+        if(!password.equalsIgnoreCase(confirmPassword)){
+            return false;
+        }
+
         return true;
     }
 }
