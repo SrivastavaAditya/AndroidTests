@@ -1,51 +1,70 @@
 package com.example.testsample;
 
-import android.app.Activity;
-import android.app.Instrumentation;
 import android.view.View;
 
-import androidx.test.rule.ActivityTestRule;
+import androidx.test.core.app.ActivityScenario;
+import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.junit.Assert.*;
 
+@RunWith(AndroidJUnit4ClassRunner.class)
 public class MainActivityTest {
 
-    @Rule
-    public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<MainActivity>(MainActivity.class);
-
-    Instrumentation.ActivityMonitor monitor = getInstrumentation().addMonitor(SecondActivity.class.getName(), null, false);
-
-    private MainActivity mActivity = null;
-
-    @Before
-    public void setUp() throws Exception {
-        mActivity = mActivityTestRule.getActivity();
-    }
+    /*
+     *  Note: ActivityScenario object is created inside every test
+     *  Reason: Tests should be isolated and independent of each other
+     */
 
     @Test
-    public void testLaunchOfSecondActivityOButtonClick(){
-        assertNotNull(mActivity.findViewById(R.id.btn_go_to));
+    public void test_isActivityInView(){
+        ActivityScenario<MainActivity> mainActivityActivityScenario = ActivityScenario.launch(MainActivity.class);
 
-        onView(withId(R.id.btn_go_to)).perform(click());
-
-        Activity secondActivity = getInstrumentation().waitForMonitorWithTimeout(monitor, 5000);
-
-        assertNotNull(secondActivity);
-
-        secondActivity.finish();
+        onView(withId(R.id.cl_main)).check(matches(isDisplayed()));
     }
 
-    @After
-    public void tearDown() throws Exception {
-        mActivity = null;
+
+    @Test
+    public void test_isTitleVisible(){
+        ActivityScenario<MainActivity> mainActivityActivityScenario = ActivityScenario.launch(MainActivity.class);
+
+        onView(withId(R.id.tv_main_activity_name)).check(matches(isDisplayed()));  // method 1
+
+        onView(withId(R.id.tv_main_activity_name))
+                .check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));  // method 2
+    }
+
+
+    @Test
+    public void test_isButtonNextVisible(){
+        ActivityScenario<MainActivity> mainActivityActivityScenario = ActivityScenario.launch(MainActivity.class);
+
+        onView(withId(R.id.btn_next)).check(matches(isDisplayed()));
+    }
+
+
+    @Test
+    public void test_isTitleTextDisplayed(){
+        ActivityScenario<MainActivity> mainActivityActivityScenario = ActivityScenario.launch(MainActivity.class);
+
+        onView(withId(R.id.tv_main_activity_name))
+                .check(matches(withText(MainActivity.class.getSimpleName())));
+    }
+
+
+    @Test
+    public void test_isButtonTextDisplayed() {
+        ActivityScenario<MainActivity> mainActivityActivityScenario = ActivityScenario.launch(MainActivity.class);
+
+        onView(withId(R.id.btn_next)).check(matches(withText(R.string.next)));
     }
 }
