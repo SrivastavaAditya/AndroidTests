@@ -20,6 +20,11 @@ import static org.junit.Assert.*;
 @RunWith(AndroidJUnit4ClassRunner.class)
 public class MainActivityTest {
 
+    /*
+     *  Note: ActivityScenario object is created inside every test
+     *  Reason: Tests should be isolated and independent of each other
+     */
+
     @Test
     public void test_isActivityInView(){
         ActivityScenario<MainActivity> mainActivityActivityScenario = ActivityScenario.launch(MainActivity.class);
@@ -57,7 +62,7 @@ public class MainActivityTest {
 
 
     @Test
-    public void test_isButtonTextDisplayed(){
+    public void test_isButtonTextDisplayed() {
         ActivityScenario<MainActivity> mainActivityActivityScenario = ActivityScenario.launch(MainActivity.class);
 
         onView(withId(R.id.btn_next)).check(matches(withText(R.string.next)));
